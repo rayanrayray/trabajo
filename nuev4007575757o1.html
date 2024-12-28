@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Moto-Taxi y Paquetería</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 100vh; width: 100%; }
+        #precio {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        /* Cambiar la dirección del texto para el idioma árabe */
+        html[lang="ar"] {
+            direction: rtl;
+        }
+    </style>
+</head>
+<body>
+    <!-- Selector de idioma -->
+    <label for="language">Choose Language:</label>
+    <select id="language" onchange="setLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="ar">العربية</option>
+    </select>
+
+    <!-- Menú para elegir el servicio -->
+    <label id="servicioLabel" for="servicio">Elige el servicio:</label>
+    <select id="servicio">
+        <option id="motoTaxi" value="moto-taxi">Moto-taxi</option>
+        <option id="paqueteria" value="paquetería">Paquetería</option>
+    </select>
+
+    <div id="map"></div>
+    <div id="precio"></div>
+    
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoicmF5YW5lOTg3IiwiYSI6ImNtNTdqNjVoNDNnYnMyaXNmaTF6cjUxcHcifQ.Cb0wz-jxQOnB9EGi-Ok8VQ'; // Reemplaza con tu token público de Mapbox
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [3.042222, 36.752778], // Coordenadas de Argel
+            zoom: 12
+        });
+
+        // Traducciones para los 3 idiomas
+        const translations = {
+            en: {
+                servicioLabel: "Choose service",
+                motoTaxi: "Moto-taxi",
+                paqueteria: "Delivery",
+                distanciaLabel: "Distance",
+                precioLabel: "Price",
+            },
+            fr: {
+                servicioLabel: "Choisir le service",
+                motoTaxi: "Moto-taxi",
+                paqueteria: "Livraison",
+                distanciaLabel: "Distance",
+                precioLabel: "Prix",
+            },
+            ar: {
+                servicioLabel: "اختيار الخدمة",
+                motoTaxi: "دراجة نارية",
+                paqueteria: "توصيل",
+                distanciaLabel: "المسافة",
+                precioLabel: "السعر",
+            }
+        };
+
+        // Función para cambiar el idioma de la aplicación
+        function setLanguage(language) {
+            document.getElementById("servicioLabel").innerText = translations[language].servicioLabel;
+            document.getElementById("motoTaxi").innerText = translations[language].motoTaxi;
+            document.getElementById("paqueteria").innerText = translations[language].paqueteria;
+            document.getElementById("distanciaLabel").innerText = translations[language].distanciaLabel;
+            document.getElementById("precioLabel").innerText = translations[language].precioLabel;
+        }
+
+        // Llamar a la función de idioma al cargar la página con el idioma por defecto (inglés)
+        setLanguage('en');
+    </script>
+</body>
+</html>
